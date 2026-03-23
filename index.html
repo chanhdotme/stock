@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Chứng Khoán & Thị Trường</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Slab:wght@600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0d1117;
+  --paper:#f6f8fa;
+  --surface:#ffffff;
+  --border:#e1e4e8;
+  --border-strong:#d0d7de;
+  --accent:#0969da;
+  --green:#1a7f37;
+  --red:#cf222e;
+  --muted:#656d76;
+  --shadow:rgba(31,35,40,.08);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Roboto',sans-serif;
+  font-weight:400;
+  min-height:100vh;
+}
+
+/* ── TOP STRIP ── */
+.top-strip{
+  height:4px;
+  background:linear-gradient(90deg,#0969da,#1a7f37,#cf222e,#8250df,#bf8700);
+}
+
+/* ── HEADER ── */
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:32px 24px 28px;
+  text-align:center;
+}
+.header-date{
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:12px;
+}
+h1{
+  font-family:'Roboto Slab',serif;
+  font-size:clamp(1.5rem,4vw,2.4rem);
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:.01em;
+}
+h1 em{
+  display:block;
+  font-family:'Roboto',sans-serif;
+  font-style:normal;
+  font-size:clamp(.8rem,2vw,1rem);
+  font-weight:400;
+  color:var(--muted);
+  letter-spacing:.1em;
+  margin-top:6px;
+}
+
+/* ── STATUS BAR ── */
+.status-bar{
+  background:#f0f6ff;
+  border-bottom:1px solid #d0e4ff;
+  padding:8px 24px;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:6px 20px;
+  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--green);
+  animation:pulse 2s ease infinite;flex-shrink:0;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(26,127,55,.4)}
+  50%{box-shadow:0 0 0 6px rgba(26,127,55,0)}
+}
+#ts{color:var(--accent);font-weight:700;}
+
+/* ── MAIN ── */
+main{
+  max-width:960px;margin:0 auto;
+  padding:40px 20px 64px;
+}
+
+/* ── SECTION ── */
+.section{margin-bottom:40px;}
+.section-title{
+  font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);
+  padding-bottom:10px;
+  border-bottom:2px solid var(--border-strong);
+  margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-title::before{
+  content:'';display:block;width:3px;height:14px;
+  border-radius:2px;flex-shrink:0;
+}
+.section-title.vn::before{background:#cf222e;}
+.section-title.global::before{background:#0969da;}
+.section-title.crypto::before{background:#bf8700;}
+
+/* ── CARD GRID ── */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+}
+
+/* ── CARD ── */
+.card{
+  display:flex;
+  flex-direction:column;
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  padding:18px 20px;
+  text-decoration:none;
+  color:var(--ink);
+  transition:all .18s;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:10px 10px 0 0;
+}
+.card:hover{
+  border-color:var(--card-color,var(--accent));
+  box-shadow:0 4px 20px var(--shadow);
+  transform:translateY(-2px);
+}
+.card:hover .card-arrow{opacity:1;transform:translateX(0);}
+
+.card-badge{
+  width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.55rem;font-weight:700;color:#fff;
+  letter-spacing:.02em;text-align:center;line-height:1.2;
+  margin-bottom:12px;flex-shrink:0;
+}
+.card-name{
+  font-size:.82rem;font-weight:500;color:var(--ink);
+  line-height:1.3;margin-bottom:4px;
+}
+.card-sub{
+  font-size:.7rem;color:var(--muted);font-weight:300;
+}
+.card-arrow{
+  position:absolute;bottom:14px;right:16px;
+  color:var(--muted);font-size:.9rem;
+  opacity:0;transform:translateX(-4px);
+  transition:all .18s;
+}
+
+/* Individual card colors */
+.card-vni  { --card-color:#cf222e; }
+.card-vni::before  { background:#cf222e; }
+.card-vni .card-badge { background:linear-gradient(135deg,#a0191f,#cf222e); }
+
+.card-hsx  { --card-color:#0969da; }
+.card-hsx::before  { background:#0969da; }
+.card-hsx .card-badge { background:linear-gradient(135deg,#0550ae,#0969da); }
+
+.card-hnx  { --card-color:#8250df; }
+.card-hnx::before  { background:#8250df; }
+.card-hnx .card-badge { background:linear-gradient(135deg,#6639ba,#8250df); }
+
+.card-vs   { --card-color:#0da5b5; }
+.card-vs::before   { background:#0da5b5; }
+.card-vs .card-badge { background:linear-gradient(135deg,#086f7a,#0da5b5); }
+
+.card-nasdaq { --card-color:#0550ae; }
+.card-nasdaq::before { background:#0550ae; }
+.card-nasdaq .card-badge { background:linear-gradient(135deg,#03346e,#0969da); }
+
+.card-nyse { --card-color:#1a1a2e; }
+.card-nyse::before { background:#1a1a2e; }
+.card-nyse .card-badge { background:linear-gradient(135deg,#1a1a2e,#4a4a7a); }
+
+.card-btc  { --card-color:#bf8700; }
+.card-btc::before  { background:linear-gradient(90deg,#bf8700,#f7931a); }
+.card-btc .card-badge { background:linear-gradient(135deg,#a06800,#f7931a); }
+
+/* ── FOOTER ── */
+footer{
+  text-align:center;
+  padding:16px 24px 32px;
+  border-top:1px solid var(--border);
+  font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:#aaa;
+}
+
+@media(max-width:480px){
+  .card-grid{grid-template-columns:1fr 1fr;}
+  main{padding:24px 12px 48px;}
+}
+</style>
+</head>
+<body>
+<div class="top-strip"></div>
+
+<header>
+  <div class="header-date" id="header-date">ĐANG TẢI…</div>
+  <h1>Chứng Khoán & Thị Trường<em>Liên kết nhanh đến các sàn giao dịch</em></h1>
+</header>
+
+<div class="status-bar">
+  <div class="live-dot"></div>
+  <span id="ts">--:--:--</span>
+  <span>·</span>
+  <span id="day-label">--</span>
+</div>
+
+<main>
+
+  <!-- VIỆT NAM -->
+  <div class="section">
+    <div class="section-title vn">Thị trường chứng khoán Việt Nam</div>
+    <div class="card-grid">
+
+      <a href="https://vn.investing.com/indices/vn" target="_blank" class="card card-vni">
+        <div class="card-badge">VNI</div>
+        <div class="card-name">VNINDEX</div>
+        <div class="card-sub">Chỉ số tổng hợp HOSE</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="https://www.hsx.vn/vi/" target="_blank" class="card card-hsx">
+        <div class="card-badge">HSX</div>
+        <div class="card-name">HOSE</div>
+        <div class="card-sub">Sở Giao dịch Chứng khoán TP.HCM</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="https://www.hnx.vn/vi-vn/" target="_blank" class="card card-hnx">
+        <div class="card-badge">HNX</div>
+        <div class="card-name">HNX</div>
+        <div class="card-sub">Sở Giao dịch Chứng khoán Hà Nội</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="https://banggia.vietstock.vn/bang-gia/hose" target="_blank" class="card card-vs">
+        <div class="card-badge">VS</div>
+        <div class="card-name">Bảng giá Vietstock</div>
+        <div class="card-sub">Bảng giá chứng khoán trực tiếp</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- QUỐC TẾ -->
+  <div class="section">
+    <div class="section-title global">Thị trường quốc tế</div>
+    <div class="card-grid">
+
+      <a href="https://www.nasdaq.com/" target="_blank" class="card card-nasdaq">
+        <div class="card-badge">NAS<br>DAQ</div>
+        <div class="card-name">NASDAQ</div>
+        <div class="card-sub">Sàn chứng khoán công nghệ Mỹ</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a href="https://www.google.com/finance/quote/NYA:INDEXNYSEGIS?hl=vi" target="_blank" class="card card-nyse">
+        <div class="card-badge">NYSE</div>
+        <div class="card-name">NYSE</div>
+        <div class="card-sub">New York Stock Exchange</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- CRYPTO -->
+  <div class="section">
+    <div class="section-title crypto">Tiền điện tử</div>
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,280px));">
+
+      <a href="https://vn.investing.com/crypto/bitcoin" target="_blank" class="card card-btc">
+        <div class="card-badge" style="font-size:.9rem;">₿</div>
+        <div class="card-name">Bitcoin</div>
+        <div class="card-sub">BTC/USD · Giá thời gian thực</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>Chỉ mang tính tham khảo &nbsp;·&nbsp; Nhấn vào thẻ để xem trang gốc</footer>
+
+<script>
+function setDateTime() {
+  const now = new Date();
+  document.getElementById('header-date').textContent =
+    now.toLocaleDateString('vi-VN', { weekday:'long', year:'numeric', month:'long', day:'numeric' }).toUpperCase();
+  document.getElementById('ts').textContent =
+    now.toLocaleTimeString('vi-VN');
+  const days = ['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+  document.getElementById('day-label').textContent = days[now.getDay()];
+}
+setDateTime();
+setInterval(() => {
+  document.getElementById('ts').textContent = new Date().toLocaleTimeString('vi-VN');
+}, 1000);
+</script>
+</body>
+</html>
